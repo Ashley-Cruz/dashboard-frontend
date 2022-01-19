@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import User from '../../assets/icons/profile-user.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clientActive } from './../../actions/client';
 import { useHistory } from 'react-router-dom';
 import { SocketContext } from './../../context/SocketContext';
@@ -10,6 +10,7 @@ import { loadingAlert } from './../../actions/alert';
 export const ClientCard = ({client}) => {
 
     const dispatch = useDispatch();
+    const {users} = useSelector(state => state.user)
     const {socket} = useContext(SocketContext);
     const history = useHistory();
     const [deleteUser, setDeleteUser] = useState(false);
@@ -55,7 +56,7 @@ export const ClientCard = ({client}) => {
                             </div>
                             <div className='client__client-card-info-sec-one-conatiner'>
                                 <p>ANALISTA ASIGNADO</p>
-                                <p>{client.analyst}</p>
+                                <p>{users.find(user => user.uid === client.analyst).name}</p>
                             </div>
                         </div>
                         <div className='client__client-card-info-sec-two'>

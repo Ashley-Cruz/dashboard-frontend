@@ -9,4 +9,6 @@ export const types = {
     alertLoading: '[Alert] Loading information',
     alertFinal: '[Alert] Request status',
     alertRemove: '[Alert] Remove alert',
+
+    userList: '[User] Get list of users'
 }

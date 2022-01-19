@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { clientsLoaded } from '../actions/client';
 import { finalAlert, loadingAlert } from './../actions/alert';
+import { usersLoaded } from './../actions/user';
 
 export const useSocket = ( serverPath ) => {
 
@@ -93,6 +94,12 @@ export const useSocket = ( serverPath ) => {
                 ok: false,
                 text: 'Parce que algo salió mal'
             }))
+        })
+    }, [socket])
+
+    useEffect(() => {
+        socket?.on('list-users', (payload) => {
+            dispatch(usersLoaded(payload.data));
         })
     }, [socket])
 

@@ -16,7 +16,7 @@ export const ClientsScreen = () => {
     const [formValues, setFormValues] = useState(initialState);
     const {searchStatus, searchName, searchId} = formValues;
 
-    const clientsFilter = useMemo( () => clients.filter(client => client.status.includes(searchStatus) && client.id.includes(searchId) && client.firstName.concat(client.secondName, client.fathersLastName, client.motherslastName).includes(searchName)))
+    const clientsFilter = useMemo( () => clients.filter(client => client.status.includes(searchStatus) && client.id.includes(searchId) && client.firstName.concat(' ', client.secondName, ' ', client.fathersLastName, ' ', client.motherslastName).includes(searchName)))
 
     const handleInputChange = ({target}) => {
         setFormValues({
@@ -27,10 +27,8 @@ export const ClientsScreen = () => {
 
     const handleFilter = () => {
         for(let i=0; i < clients.length; i++){
-            console.log(clients[i]);
             let fullName = clients[i].firstName;
             fullName = fullName.concat(clients[i].secondName, clients[i].fathersLastName)
-            console.log(fullName)
         }
     }
     handleFilter();

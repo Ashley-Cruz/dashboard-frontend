@@ -1,0 +1,98 @@
+
+.dashboard__body{
+    width: 98%;
+    height: auto;
+    overflow-y: auto;
+    display: flex;
+    // flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0px 15px 65px 15px;
+    flex-direction: column;
+    overflow-x: hidden;
+
+    .dashboard__general-container-info{
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: space-between;
+        margin: 20px 0;
+
+        .dashboard__container-info{
+            background-color: white;
+            border: 1px solid #E3E5E9;
+            box-shadow: 0px 0px 12px 0px #e6e6e6;
+            width: 23%;
+            border-radius: 5px;
+            padding: 15px;
+            position: relative;
+
+            p:nth-child(1){
+                font-size: 13px;
+                color: rgb(136, 136, 136);
+                font-weight: 300;
+                margin-bottom: 20px;
+            }
+            p:nth-child(2){
+                font-size: 22px;
+                font-weight: 500;
+                color: rgb(105, 105, 105);
+            }
+
+            div{
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                border-radius: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 3px;
+            }
+
+            .dashboard__container-svg-one{
+                background-color: #3363ff5b;
+            }
+            .dashboard__container-svg-two{
+                background-color: #00b34263;
+            }
+            .dashboard__container-svg-three{
+                background-color: #ffee003a;
+            }
+            .dashboard__container-svg-four{
+                background-color: #ff292569;
+            }
+        }
+    }
+
+    .dashboard__general-conatiner-graph{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        height: auto;
+        margin-bottom: 20px;
+        justify-content: space-between;
+        
+        .dashboard__conatiner-graph{
+            width: 35%;
+            height: auto;
+            background-color: white;
+            border: 1px solid #E3E5E9;
+            box-shadow: 0px 0px 12px 0px #e6e6e6;
+            border-radius: 5px;
+            padding: 15px;
+
+            p{
+                font-size: 15px;
+                font-weight: 500;
+                color: rgb(105, 105, 105);
+                margin-bottom: 20px;
+            }
+        }
+
+        .dashboard__conatiner-graph-bar{
+            width: 62%;
+        }
+    }
+
+}

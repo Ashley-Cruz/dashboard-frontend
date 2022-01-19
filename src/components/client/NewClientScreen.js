@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { SocketContext } from './../../context/SocketContext';
 import Chip from '../../assets/icons/chip.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadingAlert } from './../../actions/alert';
 
 export const NewClientScreen = () => {
@@ -13,6 +13,7 @@ export const NewClientScreen = () => {
     const {socket} = useContext(SocketContext);
     const history = useHistory();
     const dispatch = useDispatch();
+    const {users} = useSelector(state => state.user);
 
     const [valuesClient, handleInputChange] = useForm({
         email: '',
@@ -158,7 +159,14 @@ export const NewClientScreen = () => {
                     </div>
                     <div className="client__form-div">
                         <label>Analista asignado</label>
-                        <input type='text' autoComplete='off' name='analyst' value={analyst} onChange={handleInputChange} />
+                        <select name='analyst' value={analyst} onChange={handleInputChange}>
+                            <option value='' disabled>- Seleccione -</option>
+                            {
+                                users.map(user => (
+                                    <option value={user.uid} key={user.uid}>{user.name}</option>
+                                ))
+                            }
+                        </select>
                     </div>
                     {
                         (!cardGenerated) &&

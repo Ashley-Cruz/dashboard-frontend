@@ -21,6 +21,7 @@ export const EditClientScreen = () => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const {users} = useSelector(state => state.user)
     const {socket} = useContext(SocketContext);
     const {activeClient} = useSelector(state => state.client);
     const [formValues, setFormValues] = useState(initialState);
@@ -142,7 +143,14 @@ export const EditClientScreen = () => {
                     </div>
                     <div className="client__form-div">
                         <label>Analista asignado</label>
-                        <input type='text' autoComplete='off' name='analyst' value={analyst} onChange={handleInputChange} />
+                        <select name='analyst' value={analyst} onChange={handleInputChange}>
+                            <option value='' disabled>- Seleccione -</option>
+                            {
+                                users.map(user => (
+                                    <option value={user.uid} key={user.uid}>{user.name}</option>
+                                ))
+                            }
+                        </select>
                     </div>
                 </form>
                 <div>
