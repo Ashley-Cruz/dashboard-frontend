@@ -11,7 +11,21 @@ export const ClientsScreen = () => {
         <div className='card__background'>
             <div className='card__top'>
                 <h2>Listado de clientes</h2>
-                <div>
+                <div className='card__top-filters'>
+                    <div>
+                        <input type='text' autoComplete='off' placeholder='Buscar por ID'/>
+                    </div>
+                    <div>
+                        <input type='text' autoComplete='off' placeholder='Buscar por Nombre'/>
+                    </div>
+                    <div>
+                        <select name='status'>
+                            <option value=''>- Seleccione -</option>
+                            <option value='PENDIENTE'>Pendiente</option>
+                            <option value='EN PROCESO'>En proceso</option>
+                            <option value='COMPLETADO'>Completado</option>
+                        </select>
+                    </div>
                     <Link to='/newclient' className='card__link-newclient'>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" strokeWidth="3" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

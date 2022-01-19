@@ -18,6 +18,12 @@ export const clientReducer = (state=initialState, action) => {
             return {
                 ...initialState
             }
+
+        case types.clientActive:
+            return {
+                ...state,
+                activeClient: action.payload
+            }
     
         default:
             return state;

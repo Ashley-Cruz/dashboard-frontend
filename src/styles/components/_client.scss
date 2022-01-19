@@ -298,21 +298,22 @@
     }
 
     svg:hover ~ .client__client-card-options{
-        // .client__client-card-options{
-            display: block;
-        // }
+        display: block;
     }
 
     .client__client-card-options{
+        background-color: white;
+        border: 1px solid #E3E5E9;
+        box-shadow: 0px 0px 5px 0px #e6e6e6;
         position: absolute;
-        background-color: #3363FF;
+        // background-color: #3363FF;
         padding-left: 10px;
-        color: white;
+        // color: white;
         border-radius: 5px 0 5px 5px;
         top: 25px;
         right: 35px;
         font-size: 13px;
-        width: 100px;
+        width: 120px;
         height: 60px;
         display: flex;
         flex-direction: column;

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { clientsLoaded } from '../actions/client';
+import { finalAlert, loadingAlert } from './../actions/alert';
 
 export const useSocket = ( serverPath ) => {
 
@@ -43,14 +44,55 @@ export const useSocket = ( serverPath ) => {
 
     useEffect(() => {
         socket?.on('create-client', (payload) => {
-            console.log('new');
+            if(payload.ok){
+                return dispatch(finalAlert({
+                    ok: true,
+                    text: 'Cliente creado de manera exitosa'
+                }))
+            }
+
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parce que algo salió mal'
+            }))
         })
     }, [socket])
 
     useEffect(() => {
         socket?.on('list-clients', (payload) => {
-            console.log('list');
             dispatch(clientsLoaded(payload.data));
+        })
+    }, [socket])
+
+    useEffect(() => {
+        socket?.on('update-client', (payload) => {
+            if(payload.ok){
+                return dispatch(finalAlert({
+                    ok: true,
+                    text: 'Cliente actualizado de manera exitosa'
+                }))
+            }
+
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parce que algo salió mal'
+            }))
+        })
+    }, [socket])
+
+    useEffect(() => {
+        socket?.on('delete-client', (payload) => {
+            if(payload.ok){
+                return dispatch(finalAlert({
+                    ok: true,
+                    text: 'Cliente eliminado de manera exitosa'
+                }))
+            }
+
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parce que algo salió mal'
+            }))
         })
     }, [socket])
 

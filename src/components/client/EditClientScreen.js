@@ -1,49 +1,50 @@
-import React, { useContext, useState } from 'react'
-import { fetchCardGenerator } from '../../helpers/fetch';
-import { useForm } from './../../hooks/useForm';
-import { useHistory } from 'react-router-dom';
-
-import { SocketContext } from './../../context/SocketContext';
+import React, { useContext, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import Chip from '../../assets/icons/chip.png';
-import { useDispatch } from 'react-redux';
+import { SocketContext } from './../../context/SocketContext';
+import { useHistory } from 'react-router-dom';
 import { loadingAlert } from './../../actions/alert';
 
-export const NewClientScreen = () => {
+const initialState = {
+    email: '',
+    number: 0,
+    firstName: '',
+    secondName: '',
+    fathersLastName: '',
+    motherslastName: '',
+    birthDate: '',
+    status: '',
+    analyst: '',
+}
 
-    const {socket} = useContext(SocketContext);
+export const EditClientScreen = () => {
+
     const history = useHistory();
     const dispatch = useDispatch();
-
-    const [valuesClient, handleInputChange] = useForm({
-        email: '',
-        number: 0,
-        firstName: '',
-        secondName: '',
-        fathersLastName: '',
-        motherslastName: '',
-        birthDate: '',
-        status: '',
-        analyst: '',
-    });
-    const {email, number, firstName, secondName, fathersLastName, motherslastName, birthDate, status, analyst} = valuesClient;
-
-    const [card, setCard] = useState({
-        cardNumber: '',
-        type: '',
-        cvv: '',
-        pin: '',
-        expirationDate: ''
-    });
-    const {cardNumber, type, cvv, pin, expirationDate} = card;
-    const [cardGenerated, setCardGenerated] = useState(false);
-
+    const {socket} = useContext(SocketContext);
+    const {activeClient} = useSelector(state => state.client);
+    const [formValues, setFormValues] = useState(initialState);
+    const {email, number, firstName, secondName, fathersLastName, motherslastName, birthDate, status, analyst} = formValues;
+    
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorNumber, setErrorNumber] = useState(false);
     const [errorNames, setErrorNames] = useState(false);
     const [errorBirthDate, setErrorBirthDate] = useState(false);
 
-    const onSubmit = async(e) => {
-        e.preventDefault();
+    useEffect(() => {
+        const {email, number, firstName, secondName, fathersLastName, motherslastName, birthDate: birthDateComplete, status, analyst} = activeClient;
+        const birthDate = birthDateComplete.slice(0, 10);
+        setFormValues({email, number, firstName, secondName, fathersLastName, motherslastName, birthDate, status, analyst});
+    }, [])
+
+    const handleInputChange = ({target}) => {
+        setFormValues({
+            ...formValues,
+            [target.name]: target.value
+        });
+    }
+
+    const onClick = () => {
 
         const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -54,7 +55,7 @@ export const NewClientScreen = () => {
             }, 4000);
             console.log('error')
             return;
-        }else if(number.length !== 10){
+        }else if(number.toString().length !== 10){
             setErrorNumber(true);
             setTimeout(() => {
                 setErrorNumber(false);
@@ -77,21 +78,7 @@ export const NewClientScreen = () => {
             return;
         }
 
-        const resp = await fetchCardGenerator();
-        const body = await resp.json();
-        const {type, date, cardNumber, cvv, pin} = body;
-        setCard({
-            cardNumber,
-            type,
-            cvv,
-            pin,
-            expirationDate: date
-        });
-        setCardGenerated(true);
-    }
-
-    const onClick = () => {
-        socket.emit('create-client', {
+        socket.emit('update-client', {
             email,
             number,
             firstName,
@@ -101,24 +88,21 @@ export const NewClientScreen = () => {
             birthDate,
             status,
             analyst,
-            cardNumber,
-            type,
-            cvv,
-            pin,
-            expirationDate
+            id: activeClient.id
         })
+        
         dispatch(loadingAlert());
     }
 
     return (
         <div className='client__background'>
             <div className='client__top'>
-                <h2>Crear cliente</h2>
+                <h2>Editar cliente</h2>
             </div>
             <span></span>
             <div className='client__body'>
                 <p className='client__body-p'>Datos del cliente</p>
-                <form className={`client__form ${cardGenerated && 'disabled'}`} onSubmit={onSubmit}>
+                <form className='client__form'>
                     <div className="client__form-div">
                         <label>Nombre</label>
                         <input type='text' autoComplete='off' name='firstName' value={firstName} onChange={handleInputChange} />
@@ -160,43 +144,34 @@ export const NewClientScreen = () => {
                         <label>Analista asignado</label>
                         <input type='text' autoComplete='off' name='analyst' value={analyst} onChange={handleInputChange} />
                     </div>
-                    {
-                        (!cardGenerated) &&
-                            <div className='client__form-div-button'>
-                                <button type='submit'>Crear tarjeta</button>
-                            </div>
-                    }
                 </form>
-                {
-                    (cardGenerated) &&
-                        <div>
-                            <p className='client__body-p'>Datos de la tarjeta</p>
-                            <div className='client__card-container'>
-                                <div className='client__card'>
-                                    <div className='client__card-imgs'>
-                                        <img src={Chip} alt='Chip' />
-                                        <img src='https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png' alt='type' />
-                                    </div>
-                                    <div className='client__card-number'>
-                                        <p>{cardNumber}</p>
-                                    </div>
-                                    <div className='client__card-info-container'>
-                                        <div>
-                                            <p className='client__card-info-subtitle'>Card Holder</p>
-                                            <p>{`${firstName} ${fathersLastName}`}</p>
-                                        </div>
-                                        <div>
-                                            <p className='client__card-info-subtitle'>Expires</p>
-                                            <p>{expirationDate.slice(0,7)}</p>
-                                        </div>
-                                    </div>
+                <div>
+                    <p className='client__body-p'>Datos de la tarjeta</p>
+                    <div className='client__card-container'>
+                        <div className='client__card'>
+                            <div className='client__card-imgs'>
+                                <img src={Chip} alt='Chip' />
+                                <img src='https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png' alt='type' />
+                            </div>
+                            <div className='client__card-number'>
+                                <p>{activeClient.card.cardNumber}</p>
+                            </div>
+                            <div className='client__card-info-container'>
+                                <div>
+                                    <p className='client__card-info-subtitle'>Card Holder</p>
+                                    <p>{`${firstName} ${fathersLastName}`}</p>
+                                </div>
+                                <div>
+                                    <p className='client__card-info-subtitle'>Expires</p>
+                                    <p>{activeClient.card.expirationDate.slice(0,7)}</p>
                                 </div>
                             </div>
-                            <div className='client__form-div-button'>
-                                <button type='submit' onClick={onClick}>Guardar</button>
-                            </div>
                         </div>
-                }
+                    </div>
+                    <div className='client__form-div-button'>
+                        <button type='submit' onClick={onClick}>Guardar cambios</button>
+                    </div>
+                </div>
             </div>
         </div>
     )

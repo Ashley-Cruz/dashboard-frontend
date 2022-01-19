@@ -8,18 +8,12 @@ import { useDispatch } from 'react-redux';
 import { SocketContext } from './../context/SocketContext';
 import { clientsLoaded } from '../actions/client';
 import { ClientsScreen } from './../components/client/ClientsScreen';
+import { EditClientScreen } from './../components/client/EditClientScreen';
 
 export const DashboardRouter = () => {
 
     const dispatch = useDispatch();
     const {socket} = useContext(SocketContext);
-
-    // useEffect(() => {
-    //     socket.on('list-clients', (data) => {
-    //         console.log('ruta principal')
-    //         dispatch(clientsLoaded(data.data));
-    //     })
-    // }, [])
     
     return (
         <div className='base__background'>
@@ -35,6 +29,7 @@ export const DashboardRouter = () => {
                         <Route exact path="/dashboard" component={DashboardScreen} />
                         <Route exact path="/clients" component={ClientsScreen} />
                         <Route exact path="/newclient" component={NewClientScreen} />
+                        <Route exact path="/editclient" component={EditClientScreen} />
 
                         <Redirect to="/dashboard" />
                     </Switch>

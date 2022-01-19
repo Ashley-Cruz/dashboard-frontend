@@ -3,5 +3,10 @@ export const types = {
     authLogout: '[Auth] Logout',
 
     clientList: '[Client] Get list of clients',
-    clientLogout: '[Client] Logout Client',
+    clientLogout: '[Client] Logout client',
+    clientActive: '[Client] Activate client',
+
+    alertLoading: '[Alert] Loading information',
+    alertFinal: '[Alert] Request status',
+    alertRemove: '[Alert] Remove alert',
 }

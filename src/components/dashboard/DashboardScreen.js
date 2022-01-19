@@ -8,13 +8,6 @@ export const DashboardScreen = () => {
     const dispatch = useDispatch();
     const {socket} = useContext(SocketContext);
 
-    // useEffect(() => {
-    //     socket.on('list-clients', (data) => {
-    //         console.log('ruta principal')
-    //         dispatch(clientsLoaded(data.data));
-    //     })
-    // }, [])
-
     return (
         <div className='card__background'>
             <div className='card__top'>

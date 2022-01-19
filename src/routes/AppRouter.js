@@ -16,21 +16,20 @@ import { Alert } from '../components/popup/Alert';
 export const AppRouter = () => {
 
     const {uid, checking} = useSelector(state => state.auth);
+    const {status} = useSelector(state => state.alert);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(StartChecking());
     }, [])
 
-    // if(checking){
-    //     //TODO: poner el diseño del otro
-    //     return <h1>Espere</h1>
-    // }
-
     return (
         <>
-            {/* <Alert /> */}
             <Router>
+            {
+                (status) && <Alert />
+
+            }
                 <div>
                     <Switch>
                         <PublicRoute path="/auth" component={AuthRouter} isAuthenticated={!!uid} />

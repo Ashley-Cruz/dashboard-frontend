@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Logo from '../../assets/ColorLogo.png';
 import { Link } from 'react-router-dom';
 
-import Question from '../../assets/icons/pregunta.png';
 import { useDispatch } from 'react-redux';
 import { startLogout } from '../../actions/auth';
+import { AlertOptions } from '../popup/AlertOptions';
 
 export const Sidebar = () => {
 
@@ -19,18 +19,7 @@ export const Sidebar = () => {
         <>
             {
                 (logout) && 
-                <div className='popup__background'>
-                    <div className='popup__form-container'>
-                        <img src={Question} alt='Icon' />
-                        <span></span>
-                        <h4>¿Quieres cerrar sesión?</h4>
-                        <p>Selecciona una opción</p>
-                        <div className='popup__form-buttons'>
-                            <button onClick={() => setLogout(false)}>Cancelar</button>
-                            <button onClick={handleClickLogout}>Sí</button>
-                        </div>
-                    </div>
-                </div>
+                    <AlertOptions title='¿Quieres cerrar sesión?' setStatus={setLogout} handleClick={handleClickLogout} />
             }
             <div className='navigation__sidebar-container'>
                 <div className='navigation__sidebar-top'>
