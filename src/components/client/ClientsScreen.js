@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ClientCard } from './ClientCard';
+import { useForm } from './../../hooks/useForm';
+
+const initialState = {
+    searchStatus: '',
+    searchName: '',
+    searchId: ''
+}
 
 export const ClientsScreen = () => {
 
-    const {clients} = useSelector(state => state.client)
+    const {clients} = useSelector(state => state.client);
+    const [formValues, setFormValues] = useState(initialState);
+    const {searchStatus, searchName, searchId} = formValues;
+
+    const clientsFilter = useMemo( () => clients.filter(client => client.status.includes(searchStatus) && client.id.includes(searchId) && client.firstName.concat(client.secondName, client.fathersLastName, client.motherslastName).includes(searchName)))
+
+    const handleInputChange = ({target}) => {
+        setFormValues({
+            ...formValues,
+            [target.name]: target.value
+        });
+    }
+
+    const handleFilter = () => {
+        for(let i=0; i < clients.length; i++){
+            console.log(clients[i]);
+            let fullName = clients[i].firstName;
+            fullName = fullName.concat(clients[i].secondName, clients[i].fathersLastName)
+            console.log(fullName)
+        }
+    }
+    handleFilter();
 
     return (
         <div className='card__background'>
@@ -13,13 +41,13 @@ export const ClientsScreen = () => {
                 <h2>Listado de clientes</h2>
                 <div className='card__top-filters'>
                     <div>
-                        <input type='text' autoComplete='off' placeholder='Buscar por ID'/>
+                        <input type='text' autoComplete='off' placeholder='Buscar por ID' name='searchId' value={searchId} onChange={handleInputChange}/>
                     </div>
                     <div>
-                        <input type='text' autoComplete='off' placeholder='Buscar por Nombre'/>
+                        <input type='text' autoComplete='off' placeholder='Buscar por Nombre' name='searchName' value={searchName} onChange={handleInputChange}/>
                     </div>
                     <div>
-                        <select name='status'>
+                        <select name='searchStatus' value={searchStatus} onChange={handleInputChange}>
                             <option value=''>- Seleccione -</option>
                             <option value='PENDIENTE'>Pendiente</option>
                             <option value='EN PROCESO'>En proceso</option>
@@ -39,7 +67,7 @@ export const ClientsScreen = () => {
             <span></span>
             <div className='card__body'>
                 {
-                    clients.map((client => (
+                    clientsFilter.map((client => (
                         <ClientCard key={client.id} client={client} />
                     )))
                 }
