@@ -26,11 +26,7 @@ export const AppRouter = () => {
     if(checking){
         return (
         <div className='base__background'>
-            <div className='base__sidebar'>
-            </div>
             <div className='base__body-container'>
-                <div className='base__navbar'>
-                </div>
                 <div className='base__body'>
                 </div>
             </div>
