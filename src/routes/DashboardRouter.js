@@ -15,10 +15,6 @@ export const DashboardRouter = () => {
     const dispatch = useDispatch();
     const {socket} = useContext(SocketContext);
     const [showSidebar, setShowSidebar] = useState(true);
-
-    useEffect(() => {
-        setShowSidebar(true)
-    }, [])
     
     return (
         <div className='base__background'>

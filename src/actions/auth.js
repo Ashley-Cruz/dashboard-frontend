@@ -129,7 +129,9 @@ export const StartChecking = () => {
                     uid,
                     name
                 }))
+                return;
             }
+            dispatch(startLogout())
 
         } catch (error) {
             dispatch(finalAlert({
