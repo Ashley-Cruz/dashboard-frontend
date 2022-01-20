@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { DashboardScreen } from './../components/dashboard/DashboardScreen';
 import { Navbar } from '../components/navigation/Navbar';
@@ -14,15 +14,23 @@ export const DashboardRouter = () => {
 
     const dispatch = useDispatch();
     const {socket} = useContext(SocketContext);
+    const [showSidebar, setShowSidebar] = useState(true);
+
+    useEffect(() => {
+        setShowSidebar(true)
+    }, [])
     
     return (
         <div className='base__background'>
-            <div className='base__sidebar'>
-                <Sidebar />
-            </div>
+            {
+                (showSidebar) &&
+                    <div className='base__sidebar'>
+                        <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar}/>
+                    </div>
+            }
             <div className='base__body-container'>
                 <div className='base__navbar'>
-                    <Navbar />
+                    <Navbar setShowSidebar={setShowSidebar} showSidebar={showSidebar}/>
                 </div>
                 <div className='base__body'>
                     <Switch>

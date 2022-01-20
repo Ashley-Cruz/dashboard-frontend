@@ -12,3 +12,8 @@ export const finalAlert = (payload) => ({
 export const removeAlert = () => ({
     type: types.alertRemove
 })
+
+export const changeStatusAlert = (payload) => ({
+    type: types.alertChangeStatus,
+    payload
+})

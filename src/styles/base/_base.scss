@@ -14,6 +14,7 @@
         width: 315px;
         background-color: #E3E5E9;
         z-index: 3;
+        position: relative;
     }
 
     .base__body-container{
@@ -45,4 +46,17 @@
         pointer-events: none;
         background-color: #E3E5E9;
     }
+}
+
+@media screen and (max-width:1200px){
+    .base__background{
+    
+        .base__sidebar{
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            max-width: 100%;
+        }
+    }
+    
 }

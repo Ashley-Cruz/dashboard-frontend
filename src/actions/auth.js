@@ -4,6 +4,8 @@ import { useSocket } from './../hooks/useSocket';
 import { useContext } from 'react';
 import { SocketContext } from './../context/SocketContext';
 import { clientLogout, clientsLoaded } from "./client";
+import { changeStatusAlert, finalAlert } from "./alert";
+import { userLogout } from "./user";
 
 
 export const startLogin = (data) => {
@@ -11,7 +13,6 @@ export const startLogin = (data) => {
     
     return async(dispatch) => {
         
-        // const {socket} = useContext(SocketContext);
         try {
             const resp = await fetchSinToken('login', data, 'POST');
             const body = await resp.json();
@@ -20,24 +21,34 @@ export const startLogin = (data) => {
                 localStorage.setItem('token', body.data.token);
 
                 const {uid, name} = body.data;
-                
-                // socket.emit('list-clients', null, (data) => {
-                //     console.log('listado de clientes - escuchando')
-                //     dispatch(clientsLoaded(data.data));
-                // })
 
                 dispatch(login({
                     uid,
                     name
                 }));
 
+            }else if(body.exist){
+                dispatch(changeStatusAlert(true));
+                dispatch(finalAlert({
+                    ok: false,
+                    text: 'El usuario es incorrecto',
+                    route: '/auth/login'
+                }))
             }else {
-                //TODO: poner modal
-                console.log('error 1');
+                dispatch(changeStatusAlert(true));
+                dispatch(finalAlert({
+                    ok: false,
+                    text: 'Parece que algo salió mal',
+                    route: '/auth/login'
+                }))
             }
         } catch (error) {
-            //TODO: poner modal
-            console.log(error);
+            dispatch(changeStatusAlert(true));
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parece que algo salió mal',
+                route: '/auth/login'
+            }))
         }
     }
 }
@@ -54,6 +65,7 @@ export const startLogout = () => {
 
         dispatch(logout());
         dispatch(clientLogout());
+        dispatch(userLogout());
     }
 }
 
@@ -77,12 +89,28 @@ export const startSignup = (data) => {
                     uid,
                     name
                 }));
-            }else{
-                //TODO: poner el modal
+            }else if(body.exist){
+                dispatch(changeStatusAlert(true));
+                dispatch(finalAlert({
+                    ok: false,
+                    text: 'Parece que el usuario ya existe',
+                    route: '/auth/signup'
+                }))
+            }else {
+                dispatch(changeStatusAlert(true));
+                dispatch(finalAlert({
+                    ok: false,
+                    text: 'Parece que algo salió mal',
+                    route: '/auth/signup'
+                }))
             }
         } catch (error) {
-            //TODO: poner el modal
-            console.log(error);
+            dispatch(changeStatusAlert(true));
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parece que algo salió mal',
+                route: '/auth/signup'
+            }))
         }
     }
 }
@@ -104,8 +132,12 @@ export const StartChecking = () => {
             }
 
         } catch (error) {
-            //TODO: poner el modal
-            console.log(error);
+            dispatch(finalAlert({
+                ok: false,
+                text: 'Parece que algo salió mal',
+                route: '/auth/login'
+            }))
+            dispatch(startLogout())
         }
     }
 }

@@ -13,7 +13,7 @@ export const Alert = () => {
     const dispatch = useDispatch();
 
     const onClick = () => {
-        history.replace('/clients');
+        history.replace(alert.route || '/clients');
         dispatch(removeAlert())
     }
 

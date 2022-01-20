@@ -4,6 +4,7 @@ import Chip from '../../assets/icons/chip.png';
 import { SocketContext } from './../../context/SocketContext';
 import { useHistory } from 'react-router-dom';
 import { loadingAlert } from './../../actions/alert';
+import Alerta from '../../assets/icons/exclamacion.png';
 
 const initialState = {
     email: '',
@@ -49,33 +50,29 @@ export const EditClientScreen = () => {
 
         const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-        if(email.length < 1 || !emailRegex.test(email)){
-            setErrorEmail(true);
-            setTimeout(() => {
-                setErrorEmail(false);
-            }, 4000);
-            console.log('error')
-            return;
-        }else if(number.toString().length !== 10){
-            setErrorNumber(true);
-            setTimeout(() => {
-                setErrorNumber(false);
-            }, 4000);
-            console.log('error')
-            return;
-        }else if(firstName.trim().length < 1 || fathersLastName.trim().length < 1 || motherslastName.trim().length < 1 || analyst === '' || status === ''){
+        if(firstName.trim().length < 1 || fathersLastName.trim().length < 1 || motherslastName.trim().length < 1 || analyst === '' || status === ''){
             setErrorNames(true);
             setTimeout(() => {
                 setErrorNames(false);
             }, 4000);
-            console.log('error')
             return;
         }else if(birthDate === ''){
             setErrorBirthDate(true);
             setTimeout(() => {
                 setErrorBirthDate(false);
             }, 4000);
-            console.log('error')
+            return;
+        }else if(email.length < 1 || !emailRegex.test(email)){
+            setErrorEmail(true);
+            setTimeout(() => {
+                setErrorEmail(false);
+            }, 4000);
+            return;
+        }else if(number.toString().length !== 10){
+            setErrorNumber(true);
+            setTimeout(() => {
+                setErrorNumber(false);
+            }, 4000);
             return;
         }
 
@@ -152,6 +149,18 @@ export const EditClientScreen = () => {
                             }
                         </select>
                     </div>
+                    {
+                        (errorEmail) && <div className="auth_err-form-container"><p className="auth_err-form"><span>Error</span><br/>El <span>correo</span> no tiene un formato válido.</p><img src={Alerta} alt="Alerta"/></div>
+                    }
+                    {
+                        (errorNumber) && <div className="auth_err-form-container"><p className="auth_err-form"><span>Error</span><br/>El <span>teléfono</span> tiene que tener 10 dígitos.</p><img src={Alerta} alt="Alerta"/></div>
+                    }
+                    {
+                        (errorBirthDate) && <div className="auth_err-form-container"><p className="auth_err-form"><span>Error</span><br/>La <span>fecha de nacimiento</span> es obligatoria.</p><img src={Alerta} alt="Alerta"/></div>
+                    }
+                    {
+                        (errorNames) && <div className="auth_err-form-container"><p className="auth_err-form"><span>Error</span><br/>No todos los campos obligatorios están <span>completos.</span></p><img src={Alerta} alt="Alerta"/></div>
+                    }
                 </form>
                 <div>
                     <p className='client__body-p'>Datos de la tarjeta</p>

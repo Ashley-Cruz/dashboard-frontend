@@ -2,7 +2,9 @@ import { types } from './../types/types';
 
 const initialState = {
     loading: false,
-    alert: null,
+    alert: {
+        ok: false
+    },
     status: false
 }
 
@@ -26,6 +28,12 @@ export const alertReducer = (state=initialState, action) => {
         case types.alertRemove:
             return {
                 ...initialState
+            }
+
+        case types.alertChangeStatus:
+            return {
+                ...state,
+                status: action.payload
             }
     
         default:

@@ -69,6 +69,44 @@
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: space-evenly;
-        margin: 15px 15px 80px 15px;
+        margin: 0px 15px 65px 15px;
+        padding-top: 5px;
+    }
+}
+
+@media screen and (max-width:870px){
+    .card__background {
+    
+        .card__top{
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+            .card__top-filters{
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 5px;
+                justify-content: space-around;
+                align-items: center;
+
+                div{
+                    margin-right: 20px;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:565px){
+    .card__background {
+    
+        .card__top{
+            flex-wrap: wrap;
+            min-height: auto;
+
+            .card__top-filters{
+                justify-content: flex-start;
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { startLogout } from '../../actions/auth';
 import { AlertOptions } from '../popup/AlertOptions';
 
-export const Sidebar = () => {
+export const Sidebar = ({setShowSidebar, showSidebar}) => {
 
     const dispatch = useDispatch();
     const [logout, setLogout] = useState(false);
@@ -69,6 +69,16 @@ export const Sidebar = () => {
                         <p className='navigation__sidebar-link' onClick={() => setLogout(true)}>Cerrar sesión</p>
                     </div>
                 </div>
+                {
+                    (showSidebar) &&
+                        <div className='navigation__sidebar-close' onClick={() => setShowSidebar(false)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-letter-x" width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#9e9e9e" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <line x1="7" y1="4" x2="17" y2="20" />
+                                <line x1="17" y1="4" x2="7" y2="20" />
+                            </svg>
+                        </div>
+                }
             </div>
         </>
     )

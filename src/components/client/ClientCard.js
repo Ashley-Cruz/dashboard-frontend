@@ -87,7 +87,7 @@ export const ClientCard = ({client}) => {
                         </div>
                     </div>
                     <div className='client__client-card-info-status'>
-                        <p>{client.status}</p>
+                        <p className={`${client.status === 'COMPLETADO' ? 'completed' : client.status === 'EN PROCESO' ? 'in-progress' : 'pending'}`}>{client.status}</p>
                     </div>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-dots-vertical" width="20" height="20" viewBox="0 0 24 24" strokeWidth="3" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">

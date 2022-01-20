@@ -4,3 +4,7 @@ export const usersLoaded = (users) => ({
     type: types.userList,
     payload: users
 })
+
+export const userLogout = () => ({
+    type: types.userLogout
+})
