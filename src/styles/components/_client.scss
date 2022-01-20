@@ -49,6 +49,7 @@
     .client__form-div{
         margin: 10px;
         width: 20%;
+        min-width: 200px;
         height: auto;
         display: flex;
         flex-direction: column;
@@ -363,6 +364,15 @@
                     display: none;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width:435px){
+    .client__form{
+    
+        .client__form-div{
+            width: 90%;
         }
     }
 }
